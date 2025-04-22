@@ -35,9 +35,9 @@ while IFS= read -r filename; do
 	input_bam="$filename"; if [[ -f "$input_bam" ]]; 
 then 
 	echo "Processing $filename";
-        macs2 callpeak -f BAMPE -g hs --keep-dup all --broad --broad-cutoff 0.1 -q 0.05  -t "$input_bam" -n $base_name --outdir macs2_peak_q05 ;
-	macs2 callpeak -f BAMPE -g hs --keep-dup all --broad --broad-cutoff 0.1 -q 0.01 -t "$input_bam" -n $base_name --outdir macs2_peak_q01 ;
-	macs2 callpeak -f BAMPE -g hs --keep-dup all --broad --broad-cutoff 0.1 -q 0.005 -t "$input_bam" -n $base_name --outdir macs2_peak_q005 ; 
+        macs2 callpeak -f BAMPE -g hs --keep-dup all --broad --broad-cutoff 0.05  -t "$input_bam" -n $base_name --outdir macs2_peak_q05 ;
+	macs2 callpeak -f BAMPE -g hs --keep-dup all --broad --broad-cutoff 0.01 -t "$input_bam" -n $base_name --outdir macs2_peak_q01 ;
+	macs2 callpeak -f BAMPE -g hs --keep-dup all --broad --broad-cutoff 0.005 -t "$input_bam" -n $base_name --outdir macs2_peak_q005 ; 
 	echo 
 	"End of $filename";
 else 
