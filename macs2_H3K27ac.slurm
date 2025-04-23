@@ -25,9 +25,10 @@ module load macs2
 # and also work directory for its output
 cd /scratch/09196/reneem/5FU/bam_folder/final_bam_folder/H3K27ac
 
-mkdir -p macs2_peak_q05
-mkdir -p macs2_peak_q01
-mkdir -p macs2_peak_q005
+mkdir -p macs2_nolambda_q05
+mkdir -p macs2_nolambda_q01
+mkdir -p macs2_llocal20k_q05
+mkdir -p macs2_llocal20k_q01
 
 echo $(date) "Starting macs2"
 while IFS= read -r filename; do 
@@ -35,10 +36,13 @@ while IFS= read -r filename; do
 	input_bam="$filename"; 
 	if [[ -f "$input_bam" ]]; then 
 		echo "Processing $filename";
+	##no lambda
+	macs2 callpeak -f BAMPE -g hs --keep-dup all --nolambda -t "$input_bam"  -q 0.05 -n $base_name --outdir macs2_nolambda_q05 ;
+       	macs2 callpeak -f BAMPE -g hs --keep-dup all --nolambda -t "$input_bam"  -q 0.01 -n $base_name --outdir macs2_nolambda_q01 ;
+	###--local 20000 settings
+	macs2 callpeak -f BAMPE -g hs --keep-dup all --llocal 20000 -t "$input_bam"  -q 0.05 -n $base_name --outdir macs2_llocal20k_q05 ; 
+	macs2 callpeak -f BAMPE -g hs --keep-dup all --llocal 20000 -t "$input_bam"  -q 0.01 -n $base_name --outdir macs2_llocal20k_q01 ;
 
-	macs2 callpeak -f BAMPE -g hs --keep-dup all -t "$input_bam"  -q 0.05 -n $base_name --outdir macs2_peak_q05 ;
-       	macs2 callpeak -f BAMPE -g hs --keep-dup all -t "$input_bam"  -q 0.01 -n $base_name --outdir macs2_peak_q01 ;
-	macs2 callpeak -f BAMPE -g hs --keep-dup all -t "$input_bam"  -q 0.005 -n $base_name --outdir macs2_peak_q005 ; 
 	echo "End of $filename";
 else 
 	echo "warning: $input_bam not found, Skipping";

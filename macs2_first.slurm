@@ -25,25 +25,34 @@ module load macs2
 # and also work directory for its output
 cd /scratch/09196/reneem/5FU/bam_folder/final_bam_folder/H3K27me3
 
-mkdir -p macs2_peak_q05
-mkdir -p macs2_peak_q01
-mkdir -p macs2_peak_q005
+
+mkdir -p macs2_nolambda_q05
+mkdir -p macs2_nolambda_q01
+mkdir -p macs2_llocal20k_q05
+mkdir -p macs2_llocal20k_q01
+mkdir -p macs2_nolambda_bcq05
+mkdir -p macs2_nolambda_bcq01
 
 echo $(date) "Starting macs2"
-while IFS= read -r filename; do 
-	base_name="${filename%_final.bam}"; 
-	input_bam="$filename"; if [[ -f "$input_bam" ]]; 
-then 
-	echo "Processing $filename";
-        macs2 callpeak -f BAMPE -g hs --keep-dup all --broad --broad-cutoff 0.05  -t "$input_bam" -n $base_name --outdir macs2_peak_q05 ;
-	macs2 callpeak -f BAMPE -g hs --keep-dup all --broad --broad-cutoff 0.01 -t "$input_bam" -n $base_name --outdir macs2_peak_q01 ;
-	macs2 callpeak -f BAMPE -g hs --keep-dup all --broad --broad-cutoff 0.005 -t "$input_bam" -n $base_name --outdir macs2_peak_q005 ; 
-	echo 
-	"End of $filename";
-else 
-	echo 
-	"warning: $input_bam not found, Skipping";
-fi; 
+while IFS= read -r filename; do
+        base_name="${filename%_final.bam}";
+        input_bam="$filename";
+        if [[ -f "$input_bam" ]]; then
+                echo "Processing $filename";
+        ##no lambda
+        macs2 callpeak -f BAMPE -g hs --keep-dup all --broad --nolambda -t "$input_bam"  --broad-cutoff 0.1 -q 0.05 -n $base_name --outdir macs2_nolambda_q05 ;
+        macs2 callpeak -f BAMPE -g hs --keep-dup all --broad --nolambda -t "$input_bam"  --broad-cutoff 0.1 -q 0.01 -n $base_name --outdir macs2_nolambda_q01 ;
+        ###--local 20000 settings
+        macs2 callpeak -f BAMPE -g hs --keep-dup all --broad --llocal 20000 -t "$input_bam"  -q 0.05 -n $base_name --outdir macs2_llocal20k_q05 ;
+        macs2 callpeak -f BAMPE -g hs --keep-dup all --broad --llocal 20000 -t "$input_bam"  -q 0.01 -n $base_name --outdir macs2_llocal20k_q01 ;
+	## checking out nolambda and bc at same level
+	macs2 callpeak -f BAMPE -g hs --keep-dup all --broad --nolambda -t "$input_bam" --broad-cutoff 0.01  -q 0.01 -n $base_name --outdir macs2_nolambda_bcq01 ;
+	macs2 callpeak -f BAMPE -g hs --keep-dup all --broad --nolambda -t "$input_bam" --broad-cutoff 0.05  -q 0.05 -n $base_name --outdir macs2_nolambda_bcq05 ;
+	
+        echo "End of $filename";
+else
+        echo "warning: $input_bam not found, Skipping";
+fi;
 done < name_file_noM.txt
 	
 echo $(date) "All Done"
