@@ -8,8 +8,8 @@
 #SBATCH -t 06:00:00		# Run time (hh:mm:ss)
 
 # create variables for scratch and work directories
-MYSCRATCH=/scratch/09196/reneem/
-MYWORK=/work/09196/reneem/ls6/
+MYSCRATCH=/scratch/09196/reneem
+MYWORK=/work/09196/reneem/ls6
 
  echo "Loading modules"
 module unload xalt
@@ -19,7 +19,8 @@ module unload xalt
 module load tacc-apptainer
 module load biocontainers/
 module load macs2
-
+module load bedtools
+ST_SIF="$MYSCRATCH/5FU/samtools_1.9--h91753b0_5.sif"
 
 # create scratch directory for this job
 # and also work directory for its output
@@ -29,6 +30,7 @@ mkdir -p macs2_nolambda_q05
 mkdir -p macs2_nolambda_q01
 mkdir -p macs2_llocal20k_q05
 mkdir -p macs2_llocal20k_q01
+BLACKLIST="/scratch/09196/reneem/GRCh38/blacklist/hg38-blacklist.v2.bed"
 
 echo $(date) "Starting macs2"
 while IFS= read -r filename; do 
@@ -36,13 +38,20 @@ while IFS= read -r filename; do
 	input_bam="$filename"; 
 	if [[ -f "$input_bam" ]]; then 
 		echo "Processing $filename";
+		###Remove blacklist regions
+		filtered_bam="${base_name}_noblacklist.bam"
+		sorted_bam="${base_name}_noblacklist_sorted.bam"
+		echo "Filtering Blacklist regions"
+		bedtools intersect -v -abam "$input_bam" -b "$BLACKLIST" > "$filtered_bam"
+		apptainer exec "$ST_SIF" samtools sort -o "$sorted_bam" "$filtered_bam"
+		apptainer exec "$ST_SIF" samtools index "$sorted_bam"
 	##no lambda
-	macs2 callpeak -f BAMPE -g hs --keep-dup all --nolambda -t "$input_bam"  -q 0.05 -n $base_name --outdir macs2_nolambda_q05 ;
-       	macs2 callpeak -f BAMPE -g hs --keep-dup all --nolambda -t "$input_bam"  -q 0.01 -n $base_name --outdir macs2_nolambda_q01 ;
+	macs2 callpeak -f BAMPE -g hs --keep-dup all --nolambda -t "$sorted_bam"  -q 0.05 -n $base_name --outdir macs2_nolambda_q05 ;
+       	macs2 callpeak -f BAMPE -g hs --keep-dup all --nolambda -t "$sorted_bam"  -q 0.01 -n $base_name --outdir macs2_nolambda_q01 ;
 	###--local 20000 settings
-	macs2 callpeak -f BAMPE -g hs --keep-dup all --llocal 20000 -t "$input_bam"  -q 0.05 -n $base_name --outdir macs2_llocal20k_q05 ; 
-	macs2 callpeak -f BAMPE -g hs --keep-dup all --llocal 20000 -t "$input_bam"  -q 0.01 -n $base_name --outdir macs2_llocal20k_q01 ;
-
+	macs2 callpeak -f BAMPE -g hs --keep-dup all --llocal 20000 -t "$sorted_bam"  -q 0.05 -n $base_name --outdir macs2_llocal20k_q05 ; 
+	macs2 callpeak -f BAMPE -g hs --keep-dup all --llocal 20000 -t "$sorted_bam"  -q 0.01 -n $base_name --outdir macs2_llocal20k_q01 ;
+rm -f "$sorted_bam" "$sorted_bam.bai"
 	echo "End of $filename";
 else 
 	echo "warning: $input_bam not found, Skipping";
