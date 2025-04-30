@@ -5,7 +5,7 @@
 #SBATCH -p vm-small		# Queue name
 #SBATCH -N 1			# Total number of nodes requested
 #SBATCH -n 1 			# Total number of mpi tasks requested (normally 1)
-#SBATCH -t 06:00:00		# Run time (hh:mm:ss)
+#SBATCH -t 04:00:00		# Run time (hh:mm:ss)
 
 # create variables for scratch and work directories
 MYSCRATCH=/scratch/09196/reneem/
@@ -30,10 +30,10 @@ cd /scratch/09196/reneem/5FU/bam_folder/final_bam_folder/H3K9me3
 BLACKLIST="/scratch/09196/reneem/GRCh38/blacklist/hg38-blacklist.v2.bed"
 
 
-mkdir -p macs2_nolambda_q05
-mkdir -p macs2_nolambda_q01
-mkdir -p macs2_llocal20k_q05
-mkdir -p macs2_llocal20k_q01
+mkdir -p macs2_nolambda_nomodel_1e5
+mkdir -p macs2_nolambda_1e5
+mkdir -p macs2_broad_nolambda_nomodel_1e5
+mkdir -p macs2_broad_nolambda_1e5
 
 echo $(date) "Starting macs2"
 while IFS= read -r filename; do
@@ -49,11 +49,11 @@ while IFS= read -r filename; do
                 apptainer exec "$ST_SIF" samtools sort -o "$sorted_bam" "$filtered_bam"
                 apptainer exec "$ST_SIF" samtools index "$sorted_bam"
         ##no lambda
-        macs2 callpeak -f BAMPE -g hs --keep-dup all --nolambda -t "$sorted_bam"  -q 0.05 -n $base_name --outdir macs2_nolambda_q05 ;
-        macs2 callpeak -f BAMPE -g hs --keep-dup all --nolambda -t "$sorted_bam"  -q 0.01 -n $base_name --outdir macs2_nolambda_q01 ;
-        ###--local 20000 settings
-        macs2 callpeak -f BAMPE -g hs --keep-dup all --llocal 20000 -t "$sorted_bam"  -q 0.05 -n $base_name --outdir macs2_llocal20k_q05 ;
-        macs2 callpeak -f BAMPE -g hs --keep-dup all --llocal 20000 -t "$sorted_bam"  -q 0.01 -n $base_name --outdir macs2_llocal20k_q01 ;
+        macs2 callpeak -f BAMPE -g hs --keep-dup all --nolambda --nomodel -t "$sorted_bam"  -q 1e-5 -n $base_name --outdir macs2_nolambda_nomodel_1e5 ;
+        macs2 callpeak -f BAMPE -g hs --keep-dup all --nolambda -t "$sorted_bam"  -q 1e-5 -n $base_name --outdir macs2_nolambda_1e5 ;
+        ###--broad settings
+        macs2 callpeak -f BAMPE -g hs --keep-dup all --broad --broad-cutoff 0.1 --nolambda --nomodel  -t "$sorted_bam"  -q 1e-5 -n $base_name --outdir macs2_broad_nolambda_nomodel_1e5 ;
+        macs2 callpeak -f BAMPE -g hs --keep-dup all --broad --broad-cutoff 0.1 --nolambda -t "$sorted_bam"  -q 1e-5 -n $base_name --outdir macs2_broad_nolambda_1e5 ;
 rm -f "$sorted_bam" "$sorted_bam.bai"
         echo "End of $filename";
 else

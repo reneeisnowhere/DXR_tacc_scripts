@@ -2,17 +2,17 @@
 
 #SBATCH -J Frip_all	  	# Job name
 #SBATCH -o Frip_all.%j		# Name of stdout output file (%j expantds to jobID)
-#SBATCH -p normal		# Queue name
+#SBATCH -p vm-small		# Queue name
 #SBATCH -N 1			# Total number of nodes requested
 #SBATCH -n 1 			# Total number of mpi tasks requested (normally 1)
-#SBATCH -t 08:00:00		# Run time (hh:mm:ss)
+#SBATCH -t 03:00:00		# Run time (hh:mm:ss)
 
 # create variables for scratch and work directories
 #MYSCRATCH=/scratch/09196/reneem/
 #MYWORK=/work/09196/reneem/ls6/
 
 
-exec > >(tee -a allrun_frip_script.log) 2>&1
+#exec > >(tee -a allrun_frip_script.log) 2>&1
 
 echo $(date) "Loading modules"
 module unload xalt
@@ -28,10 +28,10 @@ module load bedtools
 cd /scratch/09196/reneem/5FU/Frip_files
 
 BASE_DIR="/scratch/09196/reneem/5FU/bam_folder/final_bam_folder"
-OUTPUT="frip_llocal20k_nolambda_detailed_results.tsv"
-echo -e "Histone\tSample\tTotal_Reads\tMapped_Reads\tFragments\tReads_in_Peaks\tFRiP" > "$OUTPUT"
-HISTONES=("H3K27ac" "H3K27me3" "H3K36me3" "H3K9me3")
-PEAK_SUBDIRS=("macs2_nolambda_q01" "macs2_nolambda_q05" "macs2_llocal20k_q01" "macs2_llocal20k_q05")
+OUTPUT="frip_llocal20k_bcq_detailed_results.tsv"
+echo -e "Histone\tSample\tcall_type\tTotal_Reads\tMapped_Reads\tFragments\tReads_in_Peaks\tFRiP" > "$OUTPUT"
+HISTONES=("H3K27me3" "H3K36me3")
+PEAK_SUBDIRS=("macs2_nolambda_bcq01" "macs2_nolambda_bcq05")
 # Loop through each histone directory
 for HISTONE in "${HISTONES[@]}"; do
         HISTONE_DIR="${BASE_DIR}/${HISTONE}"
