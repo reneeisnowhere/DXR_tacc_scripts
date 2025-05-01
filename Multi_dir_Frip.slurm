@@ -28,10 +28,10 @@ module load bedtools
 cd /scratch/09196/reneem/5FU/Frip_files
 
 BASE_DIR="/scratch/09196/reneem/5FU/bam_folder/final_bam_folder"
-OUTPUT="frip_llocal20k_bcq_detailed_results.tsv"
+OUTPUT="additional_lambda_1e5_results.tsv"
 echo -e "Histone\tSample\tcall_type\tTotal_Reads\tMapped_Reads\tFragments\tReads_in_Peaks\tFRiP" > "$OUTPUT"
-HISTONES=("H3K27me3" "H3K36me3")
-PEAK_SUBDIRS=("macs2_nolambda_bcq01" "macs2_nolambda_bcq05")
+HISTONES=("H3K27ac" "H3K9me3" "H3K27me3" "H3K36me3")
+PEAK_SUBDIRS=("macs2_nolambda_nomodel_1e5" "macs2_nolambda_1e5" "macs2_broad_nolambda_nomodel_1e5" "macs2_broad_nolambda_1e5")
 # Loop through each histone directory
 for HISTONE in "${HISTONES[@]}"; do
         HISTONE_DIR="${BASE_DIR}/${HISTONE}"
@@ -43,8 +43,9 @@ for HISTONE in "${HISTONES[@]}"; do
     # Check if bam and peaks directories exist
     [[ ! -d "$BAM_DIR" ]] && continue
 
-    for BAM in "$BAM_DIR"/*_noM_final.bam; do
-        BASENAME=$(basename "$BAM" _final.bam)
+    for BAM in "$BAM_DIR"/*_noM_noblacklist.bam; do
+	    
+        BASENAME=$(basename "$BAM" _noblacklist.bam)
 
 	for SUBDIR in "${PEAK_SUBDIRS[@]}"; do 
 		PEAK_DIR="${HISTONE_DIR}/${SUBDIR}"
