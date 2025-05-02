@@ -5,7 +5,7 @@
 #SBATCH -p vm-small		# Queue name
 #SBATCH -N 1			# Total number of nodes requested
 #SBATCH -n 1 			# Total number of mpi tasks requested (normally 1)
-#SBATCH -t 03:00:00		# Run time (hh:mm:ss)
+#SBATCH -t 04:00:00		# Run time (hh:mm:ss)
 
 # create variables for scratch and work directories
 #MYSCRATCH=/scratch/09196/reneem/
@@ -28,10 +28,11 @@ module load bedtools
 cd /scratch/09196/reneem/5FU/Frip_files
 
 BASE_DIR="/scratch/09196/reneem/5FU/bam_folder/final_bam_folder"
-OUTPUT="additional_lambda_1e5_results.tsv"
+OUTPUT="additional_lambda_1e5_results_broad.tsv"
 echo -e "Histone\tSample\tcall_type\tTotal_Reads\tMapped_Reads\tFragments\tReads_in_Peaks\tFRiP" > "$OUTPUT"
-HISTONES=("H3K27ac" "H3K9me3" "H3K27me3" "H3K36me3")
-PEAK_SUBDIRS=("macs2_nolambda_nomodel_1e5" "macs2_nolambda_1e5" "macs2_broad_nolambda_nomodel_1e5" "macs2_broad_nolambda_1e5")
+HISTONES=("H3K27me3" "H3K36me3")
+PEAK_SUBDIRS=("macs2_nolambda_nomodel_1e5" "macs2_nolambda_1e5")
+
 # Loop through each histone directory
 for HISTONE in "${HISTONES[@]}"; do
         HISTONE_DIR="${BASE_DIR}/${HISTONE}"
