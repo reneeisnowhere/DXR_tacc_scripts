@@ -30,7 +30,7 @@ final_bam_folder="${base_dir}/bam_folder/final_bam_folder"
 echo $(date) "Starting the metric things"
 bam_folders=("H3K27ac" "H3K27me3" "H3K9me3" "H3K36me3")
 
-	sed -n '55,94p' samplesheet.txt| while read -r i; do 
+	sed -n '23,24p' samplesheet.txt| while read -r i; do 
 	echo $i;
 	echo "filtering out chrM and others";
 	

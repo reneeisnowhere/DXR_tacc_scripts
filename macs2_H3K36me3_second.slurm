@@ -24,7 +24,7 @@ ST_SIF="$MYSCRATCH/5FU/samtools_1.9--h91753b0_5.sif"
 
 cd /scratch/09196/reneem/5FU/bam_folder/final_bam_folder/H3K36me3
 
-mkdir -p macs2_nobc_nolambda_nomodel_1e5
+mkdir -p macs2_nolambda_nomodel_1e5
 #mkdir -p macs2_nolambda_1e5
 #mkdir -p macs2_llocal20k_q05
 #mkdir -p macs2_llocal20k_q01
@@ -47,7 +47,7 @@ while IFS= read -r filename; do
                 apptainer exec "$ST_SIF" samtools sort -o "$sorted_bam" "$filtered_bam"
                 apptainer exec "$ST_SIF" samtools index "$sorted_bam"
         ##no lambda
-        macs2 callpeak -f BAMPE -g hs --keep-dup all --broad --nolambda --nomodel -t "$sorted_bam"  --broad-cutoff 0.1 -q 1e-5 -n $base_name --outdir macs2_nolambda_nomodel_1e5 ;
+        macs2 callpeak -f BAMPE -g hs --keep-dup all --broad --nolambda --nomodel -t "$sorted_bam" -q 1e-5 -n $base_name --outdir macs2_nolambda_nomodel_1e5 ;
         #macs2 callpeak -f BAMPE -g hs --keep-dup all --broad --nolambda -t "$sorted_bam"  --broad-cutoff 0.1 -q 1e-5 -n $base_name --outdir macs2_nolambda_1e5 ;
         ###--local 20000 settings
        # macs2 callpeak -f BAMPE -g hs --keep-dup all --broad --llocal 20000 -t "$sorted_bam"  -q 0.05 -n $base_name --outdir macs2_llocal20k_q05 ;
