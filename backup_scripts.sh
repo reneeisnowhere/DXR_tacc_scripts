@@ -10,7 +10,7 @@
 #SBATCH -t 01:15:00             # Run time (hh:mm:ss)
 
 # Define source and destination
-SRC_DIRS=("/scratch/09196/reneem/5FU" "/work/09196/reneem/ls6/5FU")
+SRC_DIRS=("/scratch/09196/reneem/5FU" "/work/09196/reneem/ls6/5FU" "/scratch/09196/reneem/ChromHMM_DXR")
 DEST_DIR=~/DXR_tacc_scripts
 
 # Create destination if it doesn't exist
