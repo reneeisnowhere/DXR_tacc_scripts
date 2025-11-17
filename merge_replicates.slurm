@@ -12,9 +12,15 @@
 
 module unload xalt
 
-module load samtools
+module load tacc-apptainer
+module load biocontainers
+
+
 
 cd /scratch/09196/reneem/ChromHMM_DXR
+
+
+SAMTOOLS_CONTAINER="/scratch/09196/reneem/ChromHMM_DXR/samtools_1.9--h91753b0_5.sif"
 
 INFO_FILE="DXR_recovery_sample_info.tsv"
 BAM_DIR="/scratch/09196/reneem/ChromHMM_DXR/bams_sorted"
@@ -38,8 +44,8 @@ tail -n +2 "$INFO_FILE" | awk '{print $2"\t"$4"\t"$5}' | sort | uniq | while rea
 
     echo "Merging $BAM_LIST into $MERGED_BAM"
 
-    samtools merge -@ 4 $MERGED_BAM $BAM_LIST
-    samtools index $MERGED_BAM
+    apptainer exec ${SAMTOOLS_CONTAINER} samtools merge -@ 4 $MERGED_BAM $BAM_LIST
+    apptainer exec ${SAMTOOLS_CONTAINER} samtools index $MERGED_BAM
 
     ##add entry into cellmarkfile.txt
 

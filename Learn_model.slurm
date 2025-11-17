@@ -1,0 +1,46 @@
+#!/bin/bash
+
+#SBATCH -J Learn_model_states
+#SBATCH -o LM_states.%j
+#SBATCH -p normal
+#SBATCH -N 1
+#SBATCH -n 8
+#SBATCH --mem=64G
+#SBATCH -t 12:00:00
+
+
+
+module unload xalt
+module load java
+module load tacc-apptainer
+module load biocontainers
+
+
+
+cd /scratch/09196/reneem/ChromHMM_DXR
+
+
+CHROMHMM="/scratch/09196/reneem/ChromHMM_DXR/ChromHMM/ChromHMM.jar"
+
+##INFO_FILE="DXR_recovery_sample_info.tsv"
+BINARIZED_DIR="/scratch/09196/reneem/ChromHMM_DXR/Binarized_files"
+##BAM_DIR="/scratch/09196/reneem/ChromHMM_DXR/bams_merged"
+CELLMARK_FILE="/scratch/09196/reneem/ChromHMM_DXR/cellmarkfile.txt"
+CHROMSIZES="/scratch/09196/reneem/ChromHMM_DXR/hg38.chrom.sizes"
+
+
+STATES_LIST=(4 5 6)
+
+for NUM_STATES in "${STATES_LIST[@]}"; do
+
+	MODEL_OUTPUT_DIR="/scratch/09196/reneem/ChromHMM_DXR/Chrom_model_${NUM_STATES}states"
+	mkdir -p "$MODEL_OUTPUT_DIR"
+	echo "Running ChromHMM with $NUM_STATES states..."
+
+	java -Djava.awt.headless=true -Xmx60G -jar "$CHROMHMM" LearnModel "$BINARIZED_DIR" "$MODEL_OUTPUT_DIR" $NUM_STATES hg38 -p 8 -printposterior > "$MODEL_OUTPUT_DIR/log.txt" 2>&1
+done
+
+
+
+
+
