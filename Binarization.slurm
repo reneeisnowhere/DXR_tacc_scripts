@@ -11,7 +11,7 @@
 
 
 module unload xalt
-module load java
+##module load java
 module load tacc-apptainer
 module load biocontainers
 

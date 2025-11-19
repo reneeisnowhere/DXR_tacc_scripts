@@ -6,16 +6,19 @@
 #SBATCH -N 1
 #SBATCH -n 8
 #SBATCH --mem=64G
-#SBATCH -t 12:00:00
+#SBATCH -t 24:00:00
 
 
 
 module unload xalt
-module load java
+module load openjdk
 module load tacc-apptainer
 module load biocontainers
 
 
+START=$(date)
+
+echo "Script started at: $START"
 
 cd /scratch/09196/reneem/ChromHMM_DXR
 
@@ -37,10 +40,9 @@ for NUM_STATES in "${STATES_LIST[@]}"; do
 	mkdir -p "$MODEL_OUTPUT_DIR"
 	echo "Running ChromHMM with $NUM_STATES states..."
 
-	java -Djava.awt.headless=true -Xmx60G -jar "$CHROMHMM" LearnModel "$BINARIZED_DIR" "$MODEL_OUTPUT_DIR" $NUM_STATES hg38 -p 8 -printposterior > "$MODEL_OUTPUT_DIR/log.txt" 2>&1
+	java -Djava.awt.headless=true -Xmx60G -jar "$CHROMHMM" LearnModel "$BINARIZED_DIR" "$MODEL_OUTPUT_DIR" $NUM_STATES hg38 -p 8 --nobed -noenrich -noimage -printposterior > "$MODEL_OUTPUT_DIR/more_log.txt" 2>&1
 done
 
+END=$(date)
 
-
-
-
+echo "Script started at $START and ended at $END"
