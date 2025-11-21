@@ -6,12 +6,12 @@
 #SBATCH -N 1
 #SBATCH -n 8
 #SBATCH --mem=64G
-#SBATCH -t 24:00:00
+#SBATCH -t 12:00:00
 
 
 
 module unload xalt
-module load openjdk
+#module load openjdk
 module load tacc-apptainer
 module load biocontainers
 
