@@ -40,7 +40,7 @@ for NUM_STATES in "${STATES_LIST[@]}"; do
 	mkdir -p "$MODEL_OUTPUT_DIR"
 	echo "Running ChromHMM with $NUM_STATES states..."
 
-	java -Djava.awt.headless=true -Xmx60G -jar "$CHROMHMM" LearnModel "$BINARIZED_DIR" "$MODEL_OUTPUT_DIR" $NUM_STATES hg38 -p 8 --nobed -noenrich -noimage -printposterior > "$MODEL_OUTPUT_DIR/more_log.txt" 2>&1
+	java -Djava.awt.headless=true -Xmx60G -jar "$CHROMHMM" LearnModel -s 123 -p 8 -nobed -printposterior "$BINARIZED_DIR" "$MODEL_OUTPUT_DIR" $NUM_STATES $CHROMSIZES > "$MODEL_OUTPUT_DIR/more_log.txt" 2>&1
 done
 
 END=$(date)
