@@ -37,9 +37,8 @@ for NUM_STATES in "${STATES_LIST[@]}"; do
 
     # Run in background with output redirected to log
     java -Djava.awt.headless=true -Xmx60G -jar "$CHROMHMM" \
-        LearnModel "$BINARIZED_DIR" "$MODEL_OUTPUT_DIR" $NUM_STATES hg38 \
-        -p 8 -nobed -noenrich -noimage -printposterior \
-        > "$MODEL_OUTPUT_DIR/more_log.txt" 2>&1 &
+        LearnModel -p 8 -nobed -noenrich -noimage -printposterior \
+        "$BINARIZED_DIR" "$MODEL_OUTPUT_DIR" $NUM_STATES $CHROMSIZES > "$MODEL_OUTPUT_DIR/more_log.txt" 2>&1 &
 done
 
 # Wait for all background processes to finish
