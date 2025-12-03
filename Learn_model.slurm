@@ -32,7 +32,7 @@ CELLMARK_FILE="/scratch/09196/reneem/ChromHMM_DXR/cellmarkfile.txt"
 CHROMSIZES="/scratch/09196/reneem/ChromHMM_DXR/hg38.chrom.sizes"
 
 
-STATES_LIST=(4 5 6)
+STATES_LIST=(13 14)
 
 for NUM_STATES in "${STATES_LIST[@]}"; do
 

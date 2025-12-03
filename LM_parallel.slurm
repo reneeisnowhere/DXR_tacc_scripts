@@ -27,7 +27,7 @@ BINARIZED_DIR="/scratch/09196/reneem/ChromHMM_DXR/Binarized_files"
 CELLMARK_FILE="/scratch/09196/reneem/ChromHMM_DXR/cellmarkfile.txt"
 CHROMSIZES="/scratch/09196/reneem/ChromHMM_DXR/hg38.chrom.sizes"
 
-STATES_LIST=(7 8 9 10 11 12)
+STATES_LIST=(15 16)
 
 for NUM_STATES in "${STATES_LIST[@]}"; do
     MODEL_OUTPUT_DIR="/scratch/09196/reneem/ChromHMM_DXR/Chrom_model_${NUM_STATES}states"
@@ -37,8 +37,9 @@ for NUM_STATES in "${STATES_LIST[@]}"; do
 
     # Run in background with output redirected to log
     java -Djava.awt.headless=true -Xmx60G -jar "$CHROMHMM" \
-        LearnModel -p 8 -nobed -noenrich -noimage -printposterior \
-        "$BINARIZED_DIR" "$MODEL_OUTPUT_DIR" $NUM_STATES $CHROMSIZES > "$MODEL_OUTPUT_DIR/more_log.txt" 2>&1 &
+        LearnModel "$BINARIZED_DIR" "$MODEL_OUTPUT_DIR" $NUM_STATES hg38 \
+        -p 8 -nobed -noenrich -noimage -printposterior \
+        > "$MODEL_OUTPUT_DIR/more_log.txt" 2>&1 &
 done
 
 # Wait for all background processes to finish
