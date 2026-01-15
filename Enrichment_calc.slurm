@@ -20,7 +20,7 @@ echo "Script started at: $START"
 CHROMHMM="/scratch/09196/reneem/ChromHMM_DXR/ChromHMM/ChromHMM.jar"
 MODEL_DIR="/scratch/09196/reneem/ChromHMM_DXR/Chrom_model_16states_final"
 OUT_DIR="/scratch/09196/reneem/ChromHMM_DXR/16-internal-enrichment"
-
+BED_DIR="/scratch/09196/reneem/ChromHMM_DXR/ChromHMM/COORDS/hg38"
 mkdir -p "$OUT_DIR"
 cd "$OUT_DIR" || exit 1
 
@@ -34,7 +34,7 @@ for SEGMENTS in "$MODEL_DIR"/*_segments.bed; do
     java -Djava.awt.headless=true -Xmx60G -jar "$CHROMHMM" \
         OverlapEnrichment \
         "$SEGMENTS" \
-        hg38 \
+        "$BED_DIR" \
         "$PREFIX" \
         > "${PREFIX}.log" 2>&1
 done

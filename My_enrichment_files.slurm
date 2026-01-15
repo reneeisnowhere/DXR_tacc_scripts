@@ -35,7 +35,7 @@ find "$MODEL_BASE" -name "*_segments.bed" | sort | while read -r SEGMENTS; do
 
 	##Extract useful names
 	SEG_BASENAME=$(basename "$SEGMENTS")
-	MODEL_NAME=$(basename "$(dirname "SEGMENTS")"
+	MODEL_NAME=$(basename "$(dirname "SEGMENTS")")
 
 	PREFIX=${SEG_BASENAME%_segments.bed}
 
