@@ -34,11 +34,11 @@ STATES_LIST=(16)
 
 for NUM_STATES in "${STATES_LIST[@]}"; do
 
-	MODEL_OUTPUT_DIR="/scratch/09196/reneem/ChromHMM_DXR/Chrom_model_${NUM_STATES}states_final"
+	MODEL_OUTPUT_DIR="/scratch/09196/reneem/ChromHMM_DXR/Chrom_model_rerun"
 	mkdir -p "$MODEL_OUTPUT_DIR"
 	echo "Running ChromHMM with $NUM_STATES states..."
 
-	java -Djava.awt.headless=true -Xmx60G -jar "$CHROMHMM" LearnModel -s 123 -p 8 -r 1000 -printposterior "$BINARIZED_DIR" "$MODEL_OUTPUT_DIR" $NUM_STATES $CHROMSIZES > "$MODEL_OUTPUT_DIR/more_log.txt" 2>&1
+	java -Djava.awt.headless=true -Xmx60G -jar "$CHROMHMM" LearnModel -s 123 -p 8 -r 1000 "$BINARIZED_DIR" "$MODEL_OUTPUT_DIR" $NUM_STATES hg38 > "$MODEL_OUTPUT_DIR/more_log.txt" 2>&1
 done
 
 END=$(date)
