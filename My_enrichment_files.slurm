@@ -24,7 +24,7 @@ CHROMHMM="/scratch/09196/reneem/ChromHMM_DXR/ChromHMM/ChromHMM.jar"
 BED_DIR="/scratch/09196/reneem/ChromHMM_DXR/bed_sets"
 MODEL_BASE="/scratch/09196/reneem/ChromHMM_DXR/Chrom_model_16states_final"
 #CHROMSIZES="/scratch/09196/reneem/ChromHMM_DXR/hg38.chrom.sizes"
-OUT_DIR="/scratch/09196/reneem/ChromHMM_DXR/overlap_enrichment_all/ATAC_run"
+OUT_DIR="/scratch/09196/reneem/ChromHMM_DXR/overlap_enrichment_all/LTRfamily_run"
 
 mkdir -p "$OUT_DIR"
 cd "$OUT_DIR" || exit 1
