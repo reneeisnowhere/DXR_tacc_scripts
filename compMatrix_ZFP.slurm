@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #SBATCH -J computeMatrix
-#SBATCH -o compmatZFP.%j
+#SBATCH -o compmatkZFP.%j
 #SBATCH -p vm-small
 #SBATCH -N 1
 #SBATCH -n 8
@@ -15,7 +15,7 @@ module load tacc-apptainer
 module load biocontainers
 module load deeptools
 
-BED_FILE=/scratch/09196/reneem/ChromHMM_DXR/already_run_bed_files/ZFP_proteins.bed
+BED_FILE=/scratch/09196/reneem/ChromHMM_DXR/bed_sets/KZFP.bed
 
 BW_DIR=/scratch/09196/reneem/ChromHMM_DXR/Big_wig/merged_bigwig
 

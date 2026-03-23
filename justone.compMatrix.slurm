@@ -17,7 +17,7 @@ module load deeptools
 
 BED_DIR=/scratch/09196/reneem/ChromHMM_DXR/already_run_bed_files
 
-BW_DIR=/scratch/09196/reneem/ChromHMM_DXR/Big_wig/merged_bigwiga
+BW_DIR=/scratch/09196/reneem/ChromHMM_DXR/Big_wig/merged_bigwigs
 
 OUT_DIR=/scratch/09196/reneem/ChromHMM_DXR/computeMatrix_output
 

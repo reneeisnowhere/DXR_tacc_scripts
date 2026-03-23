@@ -6,7 +6,7 @@
 #SBATCH -N 1
 #SBATCH -n 8
 #SBATCH -t 00:30:00
-#SBATCH --array=17-20%4
+#SBATCH --array=1-2%2
 
 
 
@@ -15,7 +15,7 @@ module load tacc-apptainer
 module load biocontainers
 module load deeptools
 
-BED_DIR=/scratch/09196/reneem/ChromHMM_DXR/Big_wig/bed_files
+BED_DIR=/scratch/09196/reneem/ChromHMM_DXR/bed_sets
 
 BW_DIR=/scratch/09196/reneem/ChromHMM_DXR/Big_wig/merged_bigwig
 
