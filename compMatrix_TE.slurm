@@ -6,7 +6,7 @@
 #SBATCH -N 1
 #SBATCH -n 16
 #SBATCH -t 00:30:00
-#SBATCH --array=201-290%8
+#SBATCH --array=1-8%4
 
 
 
@@ -19,7 +19,7 @@ BED_DIR=/scratch/09196/reneem/ChromHMM_DXR/bed_sets
 
 BW_DIR=/scratch/09196/reneem/ChromHMM_DXR/Big_wig/merged_bigwig
 
-OUT_DIR=/scratch/09196/reneem/ChromHMM_DXR/computeMatrix_output_2histone
+OUT_DIR=/scratch/09196/reneem/ChromHMM_DXR/computeMatrix_output_4histone
 
 mkdir -p $OUT_DIR
 
