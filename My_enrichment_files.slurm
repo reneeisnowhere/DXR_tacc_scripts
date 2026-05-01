@@ -1,12 +1,12 @@
 #!/bin/bash
 
 #SBATCH -J Enrichment
-#SBATCH -o enrATAC.%j
+#SBATCH -o enrRPTMSKR.%j
 #SBATCH -p normal
 #SBATCH -N 1
 #SBATCH -n 1
 #SBATCH --mem=64G
-#SBATCH -t 3:00:00
+#SBATCH -t 5:00:00
 
 
 
@@ -24,7 +24,7 @@ CHROMHMM="/scratch/09196/reneem/ChromHMM_DXR/ChromHMM/ChromHMM.jar"
 BED_DIR="/scratch/09196/reneem/ChromHMM_DXR/bed_sets"
 MODEL_BASE="/scratch/09196/reneem/ChromHMM_DXR/Chrom_model_16states_final"
 #CHROMSIZES="/scratch/09196/reneem/ChromHMM_DXR/hg38.chrom.sizes"
-OUT_DIR="/scratch/09196/reneem/ChromHMM_DXR/overlap_enrichment_all/KZFP_run"
+OUT_DIR="/scratch/09196/reneem/ChromHMM_DXR/overlap_enrichment_all/RPTmasker_run"
 
 mkdir -p "$OUT_DIR"
 cd "$OUT_DIR" || exit 1

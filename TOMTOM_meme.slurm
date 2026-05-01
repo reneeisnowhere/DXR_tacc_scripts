@@ -20,10 +20,13 @@ cd /scratch/09196/reneem/memesuite
 mkdir -p $OUT_DIR
 
 
+apptainer exec --bind $JASPAR_DIR:/home/meme \
+  /scratch/09196/reneem/memesuite/memesuite_latest.sif \
+  head -5 /home/meme/JASPAR/JASPAR2022_CORE_vertebrates_non-redundant_v2.meme
 
 apptainer exec --bind $FASTA_DIR:/home/fasta,$OUT_DIR:/home/tomtom_out,$JASPAR_DIR:/home/meme /scratch/09196/reneem/memesuite/memesuite_latest.sif tomtom \
 	--oc /home/tomtom_out \
-	-evalue /home/meme/KZFP_motifs.meme home/meme/JASPAR/JASPAR2022_CORE_vertebrates_non-redundant_v2.meme
+	-evalue /home/meme/KZFP_motifs.meme /home/meme/JASPAR/JASPAR2022_CORE_vertebrates_non-redundant_v2.meme
 
 
 echo $(date) " done"

@@ -1,4 +1,4 @@
-#!/bin/bash
+#/bin/bash
 
 #SBATCH -J computeLTR
 #SBATCH -o compmatLTR.%j

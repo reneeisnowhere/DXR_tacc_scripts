@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #SBATCH -J computeMatrix
-#SBATCH -o compmat.%j
+#SBATCH -o compREG.%j
 #SBATCH -p normal
 #SBATCH -N 1
 #SBATCH -n 8
@@ -15,11 +15,11 @@ module load tacc-apptainer
 module load biocontainers
 module load deeptools
 
-BED_DIR=/scratch/09196/reneem/ChromHMM_DXR/bed_sets
+BED_DIR=/scratch/09196/reneem/ChromHMM_DXR/comp_bed_sets
 
 BW_DIR=/scratch/09196/reneem/ChromHMM_DXR/Big_wig/merged_bigwig
 
-OUT_DIR=/scratch/09196/reneem/ChromHMM_DXR/computeMatrix_output_centered2histone
+OUT_DIR=/scratch/09196/reneem/ChromHMM_DXR/computeMatrix_output_centeredregions
 
 mkdir -p $OUT_DIR
 
