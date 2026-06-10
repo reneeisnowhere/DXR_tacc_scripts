@@ -5,17 +5,16 @@
 #SBATCH -p normal
 #SBATCH -N 1
 #SBATCH -n 1
-#SBATCH -c 4
+#SBATCH -c 1
 #SBATCH -t 4:00:00
 #SBATCH --array=1-25%8
-#SBATCH --mem=64G
 
 echo $(date) "Starting process"
 module load tacc-apptainer
 
 
 FASTA_DIR=/scratch/09196/reneem/memesuite/fa_files
-OUT_DIR=/scratch/09196/reneem/memesuite/TE_sea_jaspar_results
+OUT_DIR=/scratch/09196/reneem/memesuite/TE_sea_jaspar_results_2024
 DB_DIR=/scratch/09196/reneem/memesuite/motif_databases
 
 cd /scratch/09196/reneem/memesuite
@@ -36,7 +35,7 @@ apptainer exec --bind $FASTA_DIR:/home/fasta,$OUT_DIR:/home/xstreme,$DB_DIR:/hom
 	--thresh 0.1 \
 	--order 2 \
 	--align center \
-	--m /home/meme/JASPAR/JASPAR2022_CORE_vertebrates_non-redundant_v2.meme  \
+	--m /home/meme/JASPAR/JASPAR2024_CORE_vertebrates_non-redundant_v2.meme  \
 	--p /home/fasta/$TARGET \
 	-n /home/fasta/$BACKGROUND
 

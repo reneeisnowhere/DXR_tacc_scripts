@@ -15,7 +15,7 @@ module load tacc-apptainer
 
 
 FASTA_DIR=/scratch/09196/reneem/memesuite/fa_files
-OUT_DIR=/scratch/09196/reneem/memesuite/TE_xstreme_results
+OUT_DIR=/scratch/09196/reneem/memesuite/TE_xstreme_results_2024
 DB_DIR=/scratch/09196/reneem/memesuite/motif_databases
 
 cd /scratch/09196/reneem/memesuite
@@ -35,7 +35,7 @@ apptainer exec --bind $FASTA_DIR:/home/fasta,$OUT_DIR:/home/xstreme,$DB_DIR:/hom
 	--desc "description for $TARGET" \
 	--dna --evt 0.05 --minw 6 --maxw 15 --align center \
 	--meme-mod zoops \
-	--m /home/meme/JASPAR/JASPAR2022_CORE_vertebrates_non-redundant_v2.meme  \
+	--m /home/meme/JASPAR/JASPAR2024_CORE_vertebrates_non-redundant_v2.meme  \
 	--p /home/fasta/$TARGET \
 	-n /home/fasta/$BACKGROUND
 
